@@ -19,7 +19,7 @@ jobs:
         DOCKER_PASS: ${{ secrets.DOCKERHUB_PASSWORD }}
       with:
         destination_container_repo: sstc/android-ndk
-        short_description: ${{ github.repositoryUrl }}
+        short_description: https://github.com/${{ github.repository }}
     - uses: up9cloud/action-notify@master
       if: cancelled() == false
       env:
