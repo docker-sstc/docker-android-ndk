@@ -4,17 +4,20 @@ ARG CMAKE_VERSION=3.22.2
 ENV ANDROID_NDK_HOME=$NDK_ROOT
 ENV PATH=$PATH:$ANDROID_SDK_ROOT/cmake/$CMAKE_VERSION/bin
 
-RUN apt install --no-install-recommends -y \
+RUN set -ex; \
+	apt update; \
+	apt install --no-install-recommends -y \
 	libssl-dev \
 	zlib1g-dev \
 	gperf \
-	build-essential
-
-RUN	apt install --no-install-recommends -y wget; \
+	build-essential \
+	wget \
+	; \
 	wget https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}-linux-x86_64.tar.gz -O cmake.tar.gz; \
 	tar -xf cmake.tar.gz; \
 	mv cmake-${CMAKE_VERSION}-linux-x86_64 $ANDROID_SDK_ROOT/cmake/$CMAKE_VERSION; \
-	rm cmake.tar.gz
+	rm cmake.tar.gz; \
+	rm -rf /var/lib/apt/lists/*
 
 VOLUME [ "/app" ]
 WORKDIR /app
